@@ -1,0 +1,138 @@
+# Requirements
+* 1st create Model class with migrations 
+* 2nd add Some new fields in migrations file line 
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->tinyinteger('status')->default(1);
+* 3rd  update model class same as user model class with guard name
+* 4th  make a guard from confing folder 
+* 5th  Make a middleware and register in kernel.php
+* 6th  put condition in middleware for guard('admin')
+* 7th  Make a route can define prefix and controller 
+* 8th make login, dashboard, register template with routes and controllers
+* 9th make seeder => php artisan make:seeder SellerSeedar
+* 10th make seller factory= >php artisan make:factory SellerFactory
+* 11th confing factory file, seeder file and database file and 
+* 12th Run => php artisan db:seed
+* After that can login with diff user
+
+
+# Laravel Breez package installation steps
+--------------------------------------
+	1st =>composer require laravel/breeze --dev
+	2nd => php artisan breeze:install
+	3rd =>npm install && npm run dev
+after DB or live project and working login register do next 
+================= 2nd step is ==========
+Create Admin migration table using below 
+php artisan make:migration create_admins_table
+2nd copy some fields from user to admin
+==================== 3rd make admin model ===============
+php artisan make:model Admin 
+--------------------------
+then copy user model data after { then paser in admin model class
+then copy below class and paste into admin Model class
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+--------------- admin class update with --------------
+class Admin extends Authenticatable
+------------------------------------
+    protected $guard = 'admin';
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'status',
+
+    ];
+------------------------------------
+then run 
+php artisan migrate 
+============================ 4th make a Admin guard ================
+go to config/Auth  file then make admin guard 
+
+copy paste guard and provider fields then save 
+==================== 5th Make Middleware ==============
+Create middleware:
+php artisan make:middleware Admin
+then register in kernal.php 
+like this way:
+'admin' => \App\Http\Middleware\Admin::class,
+in middleware area add this condition :
+Use Auth;
+------------
+  if(!Auth::guard('admin'))->check(){
+            return redirect()->route('login_form')->with('error', "please login first");
+        }
+
+
+----------------------------------
+make  admin Controller using below cmd
+php artisan make:Controller AdminController
+confing admin controller:
+--------------------------
+    public function index(){
+    	   	return view('admin.admin_login');
+    	// end method 
+    }
+    // ============ dashboard =============
+    public function dashboard(){
+    	return view('admin.index');
+    }
+==================== 5th Make Route with prefix =========================
+Route::prefix('admin')->group(function(){
+
+Route::get('/login',[AdminController::class, 'index'])->name('login_form');
+Route::get('/login/owner',[AdminController::class, 'login'])->name('admin.login');
+Route::get('/dashboard',[AdminController::class, 'dashboard'])->name('admin.dashboard');
+});
+=========== 6th setup your theam login and dashboard ============
+all request dd()
+
+    public function login(Request $request){
+    	// dd($request->all());
+        $check =$request->all();
+        if(Auth::guard('admin')->attempt(['email'=> $check['email'], 'password'=>$check['password']])){
+
+            return redirect()->route('admin.dashboard')->with('error', 'Admin Login successfully');
+        }else{
+            return back()->with('error', 'Invalid password');
+        }
+
+
+
+
+    }
+---------------------------------------------------------
+insert data in DB using seedar
+
+php artisan make:seeder AdminSeedar
+
+php artisan make:factory AdminFactory
+after that go to database folder and factory folder
+and copy some data into new factory 
+---------------------------------------
+then edit admin Seedar file 
+Add model class
+use App\Model\Admin;
+Admin seedar files 
+https://prnt.sc/eyonVLK0JFN1
+
+Admin::factory(1)->create();
+Data base seeder file =>https://prnt.sc/CI2TmaC68ih5
+
+
+Factory file AdminFactory=>https://prnt.sc/denb7SJ2oAe6
+---------------------------------------------------
+insert data in DB use this cmd 
+php artisan DB:seed
+----------------------------------------
+after that can login  by admin or user 
+----------------------------------------
+
+
+
+
