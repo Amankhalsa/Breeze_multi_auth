@@ -1,7 +1,9 @@
 # Admin
 <img src="https://raw.githubusercontent.com/Amankhalsa/Breeze_multi_auth/main/admin.png">
+
 # seller
 <img src="https://raw.githubusercontent.com/Amankhalsa/Breeze_multi_auth/main/seller.png">
+
 # Default user 
 <img src="https://raw.githubusercontent.com/Amankhalsa/Breeze_multi_auth/main/default.png">
 
