@@ -5,6 +5,25 @@
 # Default user 
 <img src="https://raw.githubusercontent.com/Amankhalsa/Breeze_multi_auth/main/default.png">
 
+# Requirements
+* 1st create Model class with migrations 
+* 2nd add Some new fields in migrations file line 
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->tinyinteger('status')->default(1);
+* 3rd  update model class same as user model class with guard name
+* 4th  make a guard from confing folder 
+* 5th  Make a middleware and register in kernel.php
+* 6th  put condition in middleware for guard('admin')
+* 7th  Make a route can define prefix and controller 
+* 8th make login, dashboard, register template with routes and controllers
+* 9th make seeder => php artisan make:seeder SellerSeedar
+* 10th make seller factory= >php artisan make:factory SellerFactory
+* 11th confing factory file, seeder file and database file and 
+* 12th Run => php artisan db:seed
+* After that can login with diff user
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
